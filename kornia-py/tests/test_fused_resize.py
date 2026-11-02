@@ -5,6 +5,10 @@ from kornia_rs import IMAGENET_MEAN as MEAN
 from kornia_rs import IMAGENET_STD as STD
 from kornia_rs.image import Image
 
+# Each test here is slow enough that 8 threads x the CI default of 50 iterations
+# takes up most of the free-threaded job, so run these with fewer iterations.
+pytestmark = pytest.mark.iterations(5)
+
 
 def _f64_reference(src_u8, dst_w, dst_h, mean, std):
     """f32 bilinear (OpenCV half-pixel) + normalize + HWC->CHW, in float64."""

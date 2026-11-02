@@ -3,6 +3,10 @@ import pytest
 
 import kornia_rs as K
 
+# Each test here is slow enough that 8 threads x the CI default of 50 iterations
+# takes up most of the free-threaded job, so run these with fewer iterations.
+pytestmark = pytest.mark.iterations(5)
+
 
 def _image(w: int = 192, h: int = 144, seed: int = 0x9E3779B9) -> np.ndarray:
     """Deterministic 0..255 grayscale in the layout Sift expects: (H, W, 1) f32.
